@@ -1,40 +1,64 @@
-name: Say Hello
+name: Say hello
 
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        types: [opened, synchronize, reopened, closed]
-        branches: [master]
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - master
 
 jobs:
-    
-    avoid_reduncy:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Cancel Previous Redundant Builds
-              uses: styfle/cancel-workflow-action@0.9.1
-              with:
-                access_token: ${{ github.token }}
 
-    hello_chimus:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Echo the message
-              run: echo "Hola Chimuelos!"
-            - run: date
-            - run: ls -a
+  avoid_reduncy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Cancel Previous Redundant Builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
 
-    is_pull_request:
-        runs-on: ubuntu-22.04
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        steps:
-            - run: echo "Esto es una pr"
+  hello_chimus:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Echo the message
+        run: |
+          echo "Hola chimuelos!"
+      - name: Dime la fecha
+        run: date
+      - run: ls -a
 
-    bye_chimus:
-        runs-on: ubuntu-22.04
-        needs: hello_chimus
-        steps:
-            - name: Echo the messagee
-              run: echo "Bye Chimuelos!"
+  closed_merge_message:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    steps:
+      - name: Echo the message
+        run: echo "Has realizado una PR!"
+
+  checkout_code:
+    runs-on: ubuntu-22.04
+    needs: hello_chimus
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip artifact for deployment
+        run: zip release.zip ./* -r
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app
+          path: release.zip
+
+  bye_chimus:
+    runs-on: ubuntu-22.04
+    needs: checkout_code
+    steps:   
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: app  
+      - run:  ls -a
+      - name: Echo the message
+        run: echo "Adios chimus!"
