@@ -9,7 +9,11 @@ jobs:
     hello_chimus:
         runs-on: ubuntu-22.04
         steps:
+            - name: Cancel Previous Redundant Builds
+              uses: styfle/cancel-workflow-action@0.9.1
+              with:
+                access_token: ${{ github.token }}
             - name: Echo the message
               run: echo "Hola Chimuelos!"
-            - run: date
+            - run: sleep 120
             - run: ls -a
