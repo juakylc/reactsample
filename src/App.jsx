@@ -1,34 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import {BrowserRouter, Link, Routes, Route} from 'react-router-dom'
+import Componentsample from './apuntes/basics/Componentsample'
+import UseEffectComp from './apuntes/hooks/UseEffectComp'
+import Contador4 from './apuntes/basics/Contador4'
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <header>Hola este es mi header</header>
+      <BrowserRouter>
+    
+      <div className='flex flex-col'>
+        <Link to='/'>Home</Link>
+        <Link to='/UseEffect'>UseEffect</Link>
+        <Link to='/Contador/0'>Contador</Link>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more!!
-      </p>
+
+
+      <Routes>
+        <Route path="/" element={<Componentsample texto="Hola"></Componentsample>}></Route>
+        <Route path='/UseEffect' element={<UseEffectComp></UseEffectComp>}></Route>
+        <Route path='/Contador/:n' element={<Contador4></Contador4>}></Route>     
+      </Routes>
+    </BrowserRouter>
     </>
+    
   )
 }
 
