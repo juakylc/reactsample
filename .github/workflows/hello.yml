@@ -4,6 +4,9 @@ on:
     push:
         branches:
             - master
+    pull_request:
+        types: [opened, synchronize, reopened, closed]
+        branches: [master]
 
 jobs:
     
@@ -22,6 +25,11 @@ jobs:
               run: echo "Hola Chimuelos!"
             - run: date
             - run: ls -a
+
+    is_pull_request:
+        runs-on: ubuntu-22.04
+        steps:
+            - run: echo "Esto es una pr"
 
     bye_chimus:
         runs-on: ubuntu-22.04
