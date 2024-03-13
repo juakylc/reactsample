@@ -28,6 +28,7 @@ jobs:
 
     is_pull_request:
         runs-on: ubuntu-22.04
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
         steps:
             - run: echo "Esto es una pr"
 
