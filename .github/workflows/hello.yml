@@ -6,14 +6,26 @@ on:
             - master
 
 jobs:
-    hello_chimus:
+    
+    avoid_reduncy:
         runs-on: ubuntu-22.04
         steps:
             - name: Cancel Previous Redundant Builds
               uses: styfle/cancel-workflow-action@0.9.1
               with:
                 access_token: ${{ github.token }}
+
+    hello_chimus:
+        runs-on: ubuntu-22.04
+        steps:
             - name: Echo the messagee
               run: echo "Hola Chimuelos!"
-            - run: sleep 120
+            - run: date
             - run: ls -a
+
+    bye_chimus:
+        runs-on: ubuntu-22.04
+        needs: hello_chimus
+        steps:
+            - name: Echo the messagee
+              run: echo "Bye Chimuelos!"
