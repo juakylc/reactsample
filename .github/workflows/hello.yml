@@ -13,7 +13,7 @@ jobs:
               uses: styfle/cancel-workflow-action@0.9.1
               with:
                 access_token: ${{ github.token }}
-            - name: Echo the message
+            - name: Echo the messagee
               run: echo "Hola Chimuelos!"
             - run: sleep 120
             - run: ls -a
