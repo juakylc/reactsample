@@ -1,30 +1,24 @@
 import './App.css'
-import {BrowserRouter, Link, Routes, Route} from 'react-router-dom'
-import Componentsample from './apuntes/basics/Componentsample'
-import UseEffectComp from './apuntes/hooks/UseEffectComp'
-import Contador4 from './apuntes/basics/Contador4'
+import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
+import Product from './apuntes/basics/Product'
+import InsertProduct from './apuntes/basics/InserProduct'
 
+const queryClient = new QueryClient()
+
+const newProduct = {  title: 'test product', 
+                      price: 13.5,
+                      description: 'lorem ipsum set',
+                      image: 'https://i.pravatar.cc',
+                      category: 'electronic'
+                    }
 
 function App() {
 
   return (
     <>
-      <header>Hola este es mi header</header>
-      <BrowserRouter>
-    
-      <div className='flex flex-col'>
-        <Link to='/'>Home</Link>
-        <Link to='/UseEffect'>UseEffect</Link>
-        <Link to='/Contador/0'>Contador</Link>
-      </div>
-
-
-      <Routes>
-        <Route path="/" element={<Componentsample texto="Hola"></Componentsample>}></Route>
-        <Route path='/UseEffect' element={<UseEffectComp></UseEffectComp>}></Route>
-        <Route path='/Contador/:n' element={<Contador4></Contador4>}></Route>     
-      </Routes>
-    </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <InsertProduct newProduct={newProduct}></InsertProduct>
+      </QueryClientProvider>
     </>
     
   )
